@@ -1,34 +1,43 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Counter from './components/Counter';
+import { SearchForm } from './components/SearchForm'
+import { GenreSelect } from './components/GenreSelect'
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
 
+  const [query, setQuery] = useState('')
+  const [selectedGenre, setSelectedGenre] = useState('All');
+  const genres = ['All', 'Documentary', 'Comedy', 'Horror', 'Crime'];
+
+  const handleSelectGenre = (genre: string) => {
+    setSelectedGenre(genre);
+  };
+
+
+  const onSearch = (query: string) => {
+    setQuery(query)
+  }
   return (
-    <>
+    <div>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h3>Counter</h3>
+        <Counter initialValue={0} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div>
+        <h3>Search Form</h3>
+        <SearchForm initialQuery={''} onSearch={onSearch} />
+        <p>Searched: {query}</p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <div>
+        <h3>Genre Selector</h3>
+        <GenreSelect
+          genres={genres}
+          selectedGenre={selectedGenre}
+          onSelect={handleSelectGenre}
+        />
+        <p>Selected Genre: {selectedGenre}</p>
+      </div>
+    </div>
   )
 }
 
